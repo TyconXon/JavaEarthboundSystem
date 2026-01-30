@@ -6,6 +6,6 @@ package planetInevitable;
 /**
  * 
  */
-public class PSI {
+public abstract class PSI {
 	
 }

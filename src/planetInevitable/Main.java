@@ -17,7 +17,7 @@ public class Main {
 			if (input == "") {
 				break;
 			}
-			EBSystem.say(input);
+			EarthBound.say(input);
 		}
 
 		System.out.println("Terminated!");
