@@ -1,8 +1,84 @@
 package planetInevitable;
 
+interface iMod{
+	float mod(float in);
+	default float mod(float in, PartyMember characterContext){
+		return mod(in);
+	};
+}
+
 public class EarthBound {
 
 	static int default_delay = 30;
+
+	public enum damageTypes {
+		BITE,
+		BULLET,
+		CHEMICAL,
+		COSMIC,
+		DARK,
+		ELECTRIC,
+		EXPLOSION, // May deafen
+		FIRE, // May ignite
+		GRAVITY, // May incapacitate
+		ICE, // May freeze
+		INSTANT, // No HP rolling
+		LIGHT, // May blind
+		MEAT,
+		METAL,
+		MYTHIC,
+		PHYSICAL,
+		PLASTIC,
+		PSYCHIC,
+		RADIATION, // May mutate
+		SUGAR,
+		TIME,
+		WATER
+	};
+	public enum locale {
+		GENERIC, EAGLELAND, DALAAM, ALIEN, WINTERS, SCARABA, SUMMERS, TENDA, ANCIENT, OTHERWORLDLY
+	}
+
+	public enum weaponType {
+		SWORD, BAT, GUN, YOYO, PAN, ABSTRACT, GLOVE, AXE, PICKAXE, BOW, FLAIL, SLINGSHOT, STAFF, GENERIC, SPEAR, WAND,
+	}
+	public enum returnCode{ SUCCESS,
+		DEAD, STUNNED, IMMOBILE, NAUSEA, GONE,
+		WRONG_LOCALE, OVERENCUMBERED, WORKING,
+		WHAT, INCOMPATIBLE, HOMESICK, LATE, EARLY,
+	}
+
+	static public class modulate {
+		enum types { MULT, ADD, POW, COMPLEX}
+		types type;
+		float value;
+		iMod mod;
+
+		modulate ( types type , float value) {
+			this.type = type;
+			this.value = value;
+			if (type == types.MULT){
+				this.mod = (float in) -> {return in * value;};
+			}else if (type == types.ADD){
+				this.mod = (float in) -> {return in + value;};
+			}else if (type == types.POW){
+				this.mod = (float in) -> {return (float) Math.pow(in, value);};
+			}
+		}
+		modulate ( iMod lamb ) {
+			this.type = types.COMPLEX;
+			this.value = 0;
+			this.mod = lamb;
+		}
+
+		modulate () {
+			this.type = types.ADD;
+			this.value = 0;
+			this.mod = (float in) -> {return in;};
+		}
+	}
+
+
 
 	/**
 	 * Print out the given text with the RPG format.
@@ -10,7 +86,7 @@ public class EarthBound {
 	 * @param text Given text to print
 	 */
 	public static void say(String text) {
-		Boolean escaped = false;
+		boolean escaped = false;
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);
 			int delay = default_delay;
