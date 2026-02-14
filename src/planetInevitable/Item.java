@@ -3,8 +3,8 @@
  */
 package planetInevitable;
 
-import jdk.jfr.Enabled;
 import planetInevitable.helpers.Affliction;
+import planetInevitable.helpers.stat;
 
 import java.util.HashMap;
 
@@ -14,15 +14,17 @@ import java.util.HashMap;
 public class Item {
 	public String name;
 	public String help;
+	public int price; // Sell-price is 3/4. 0 if unsellable.
 	EarthBound.locale locale = EarthBound.locale.GENERIC; // Who is able to use this food? ( like how pu doesn't like american food )
 
-	public class ItemInstance {
+	@SuppressWarnings("InnerClassMayBeStatic")
+    public class ItemInstance {
 		private static int maxID = 0;
-		int id;
-		Item type;
+		public int id;
+		public Item type;
 
 		ItemInstance(Item type){
-			this.id = maxID++;
+			this.id = ++maxID;
 			this.type = type;
 		}
 	}
@@ -42,6 +44,7 @@ public class Item {
 	static public class Equipment extends Item {
 		PartyMember.equipmentSlot slot;
 
+		HashMap<stat, EarthBound.modulate> statModulation;
 		HashMap<EarthBound.damageTypes, EarthBound.modulate> damageResistances = new HashMap<>();
 		HashMap<Affliction.afflictions, EarthBound.modulate> afflictionResistances = new HashMap<>();
 		HashMap<Affliction.ailment, EarthBound.modulate> ailmentModulations = new HashMap<>();
@@ -51,6 +54,7 @@ public class Item {
 		EarthBound.weaponType type;
 
 		EarthBound.damageTypes damageType;
+		HashMap<stat, EarthBound.modulate> statModulation;
 		HashMap<Affliction.afflictions, Float> afflictionInflictionChances = new HashMap<>();
 		HashMap<Affliction.ailment, EarthBound.modulate> ailmentModulations = new HashMap<>();
 
