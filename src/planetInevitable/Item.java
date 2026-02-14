@@ -44,20 +44,36 @@ public class Item {
 	static public class Equipment extends Item {
 		PartyMember.equipmentSlot slot;
 
-		HashMap<stat, EarthBound.modulate> statModulation;
+		HashMap<stat, EarthBound.modulate> statModulation = new HashMap<>();
 		HashMap<EarthBound.damageTypes, EarthBound.modulate> damageResistances = new HashMap<>();
 		HashMap<Affliction.afflictions, EarthBound.modulate> afflictionResistances = new HashMap<>();
 		HashMap<Affliction.ailment, EarthBound.modulate> ailmentModulations = new HashMap<>();
 
+		public void defaultStats(){
+			for (stat stat : stat.values()){
+				statModulation.putIfAbsent(stat, new EarthBound.modulate(EarthBound.modulate.types.ADD, 1));
+			}
+			for (EarthBound.damageTypes dmgType : EarthBound.damageTypes.values()){
+				damageResistances.putIfAbsent(dmgType, new EarthBound.modulate());
+			}
+			for (Affliction.afflictions affType : Affliction.afflictions.values()){
+				afflictionResistances.putIfAbsent(affType, new EarthBound.modulate());
+			}
+		}
 	}
 	static public class Weapon extends Item {
 		EarthBound.weaponType type;
 
 		EarthBound.damageTypes damageType;
-		HashMap<stat, EarthBound.modulate> statModulation;
+		HashMap<stat, EarthBound.modulate> statModulation = new HashMap<>();
 		HashMap<Affliction.afflictions, Float> afflictionInflictionChances = new HashMap<>();
 		HashMap<Affliction.ailment, EarthBound.modulate> ailmentModulations = new HashMap<>();
 
+		public void defaultStats(){
+			for (stat stat : stat.values()) {
+				statModulation.putIfAbsent(stat, new EarthBound.modulate());
+			}
+		}
 	}
 
 	/**

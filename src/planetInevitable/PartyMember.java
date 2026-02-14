@@ -13,7 +13,7 @@ public class PartyMember {
 
 	public enum equipmentSlot {
 		HEAD, BODY, LEGS, SHOES, ARMS, NECK, HANDS,
-	};
+	}
 
 
 	String name; // Parameter
@@ -45,9 +45,33 @@ public class PartyMember {
 		validEquipmentSlots = new HashSet<>(List.of(new equipmentSlot[]{equipmentSlot.HEAD, equipmentSlot.HANDS, equipmentSlot.BODY, equipmentSlot.ARMS, equipmentSlot.LEGS, equipmentSlot.NECK, equipmentSlot.SHOES}));
 	}
 
+	public int getExperience() {
+		return stats.experience;
+	}
+	public void setExperience(int xp) {
+		stats.experience = xp;
+
+		int prevLevel = stats.level;
+		while (stats.getLevelFromXP(xp) >= stats.level) {
+			this.levelUp();
+		}
+
+		if (stats.level > prevLevel) {
+			int levelsGained = stats.level - prevLevel;
+			EarthBound.say(this.name+" leveled up! Gained a total of "+levelsGained+" level(s).");
+		}
+	}
+
+	private void levelUp() {
+		stats.level += 1;
+	}
+
+	public void addExperience(int xp){
+		this.setExperience(this.getExperience() + xp);
+	}
 
 	public boolean giveItem(Item.ItemInstance item){
-		if (this.inventory.size() < this.stats.get(stat.IQ)) {
+		if (this.inventory.size() < this.stats.get(stat.MAX_CARRY)) {
 			this.inventory.add(item);
 			return true;
 		}
@@ -115,6 +139,46 @@ public class PartyMember {
 		EarthBound.print("\\b" + this.name + "\\d has unequipped \\r" + equippable.type.name + "\\d!");
 	}
 
+	public Stats getEffectiveStats() {
+		var effective = new Stats();
+		effective.value.putAll(this.stats.value);
+		effective.damageTypeResistances = this.stats.damageTypeResistances;
+		effective.damageTypeMultiplier = this.stats.damageTypeMultiplier;
+		effective.afflictionResistances = this.stats.afflictionResistances;
 
+		//Equipment
+		// For each valid equipment slot
+		for (equipmentSlot slot : this.validEquipmentSlots) {
+			// If nothing is there, skip.
+			if (!this.equipment.containsKey(slot)) continue;
+
+			// Set type variable
+			if (this.equipment.get(slot).type instanceof Item.Equipment type) {
+				// For each statmod
+				for (stat curStat : type.statModulation.keySet())
+					effective.set(curStat, Math.round((Float) type.statModulation.get(curStat).mod(this.stats.get(curStat))) );
+				for (EarthBound.damageTypes curType : type.damageResistances.keySet())
+					effective.damageTypeResistances.put(curType, (Float) type.damageResistances.get(curType).mod(effective.damageTypeResistances.get(curType)));
+				for (var curAffl : type.afflictionResistances.keySet())
+					effective.afflictionResistances.put(curAffl, (Float) type.afflictionResistances.get(curAffl).mod(effective.afflictionResistances.get(curAffl)));
+			}
+
+
+		}
+
+		//Weapon
+		// If nothing is there, skip.
+		if (this.getWeapon().isPresent()) {
+			// Set type variable
+			if (this.getWeapon().get().type instanceof Item.Weapon type) {
+				// For each statmod
+				for (stat curStat : type.statModulation.keySet())
+					effective.set(curStat, Math.round((Float) type.statModulation.get(curStat).mod(effective.get(curStat))));
+			}
+		}
+
+		return effective;
+
+	}
 }
 

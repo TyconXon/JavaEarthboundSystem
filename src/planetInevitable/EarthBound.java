@@ -1,11 +1,8 @@
 package planetInevitable;
 
-interface iMod{
-	float mod(float in);
-	default float mod(float in, PartyMember characterContext){
-		return mod(in);
-	};
-}
+import java.util.function.UnaryOperator;
+
+
 
 public class EarthBound {
 
@@ -49,23 +46,29 @@ public class EarthBound {
 	}
 
 	static public class modulate {
+
+		public UnaryOperator<Float> mod;
+
+		public Object mod(float i) {
+			return this.mod.apply(i);
+		}
+
 		enum types { MULT, ADD, POW, COMPLEX}
 		types type;
 		float value;
-		iMod mod;
 
 		modulate ( types type , float value) {
 			this.type = type;
 			this.value = value;
 			if (type == types.MULT){
-				this.mod = (float in) -> {return in * value;};
+				this.mod = (Float in) -> {return in * value;};
 			}else if (type == types.ADD){
-				this.mod = (float in) -> {return in + value;};
+				this.mod = (Float in) -> {return in + value;};
 			}else if (type == types.POW){
-				this.mod = (float in) -> {return (float) Math.pow(in, value);};
+				this.mod = (Float in) -> {return (float) Math.pow(in, value);};
 			}
 		}
-		modulate ( iMod lamb ) {
+		modulate ( UnaryOperator<Float> lamb ) {
 			this.type = types.COMPLEX;
 			this.value = 0;
 			this.mod = lamb;
@@ -74,7 +77,7 @@ public class EarthBound {
 		modulate () {
 			this.type = types.ADD;
 			this.value = 0;
-			this.mod = (float in) -> {return in;};
+			this.mod = (Float in) -> {return in;};
 		}
 	}
 
@@ -155,12 +158,7 @@ public class EarthBound {
 	}
 	
 	
-	public static double lvlXPcurve(Integer level) {
-		return Math.pow(0.5 * level, 3.5);
-	}
-	public static int getLevelFromXP(Integer XP) {
-		return (int) Math.pow(2 * XP, 1 / 3.5);
-	}
+
 	
 	
 	/*
