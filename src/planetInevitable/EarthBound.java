@@ -8,30 +8,6 @@ public class EarthBound {
 
 	static int default_delay = 30;
 
-	public enum damageTypes {
-		BITE,
-		BULLET,
-		CHEMICAL,
-		COSMIC,
-		DARK,
-		ELECTRIC,
-		EXPLOSION, // May deafen
-		FIRE, // May ignite
-		GRAVITY, // May incapacitate
-		ICE, // May freeze
-		INSTANT, // No HP rolling
-		LIGHT, // May blind
-		MEAT,
-		METAL,
-		MYTHIC,
-		PHYSICAL,
-		PLASTIC,
-		PSYCHIC,
-		RADIATION, // May mutate
-		SUGAR,
-		TIME,
-		WATER
-	};
 	public enum locale {
 		GENERIC, EAGLELAND, DALAAM, ALIEN, WINTERS, SCARABA, SUMMERS, TENDA, ANCIENT, OTHERWORLDLY
 	}
@@ -39,48 +15,6 @@ public class EarthBound {
 	public enum weaponType {
 		SWORD, BAT, GUN, YOYO, PAN, ABSTRACT, GLOVE, AXE, PICKAXE, BOW, FLAIL, SLINGSHOT, STAFF, GENERIC, SPEAR, WAND,
 	}
-	public enum returnCode{ SUCCESS,
-		DEAD, STUNNED, IMMOBILE, NAUSEA, GONE,
-		WRONG_LOCALE, OVERENCUMBERED, WORKING,
-		WHAT, INCOMPATIBLE, HOMESICK, LATE, EARLY,
-	}
-
-	static public class modulate {
-
-		public UnaryOperator<Float> mod;
-
-		public Object mod(float i) {
-			return this.mod.apply(i);
-		}
-
-		enum types { MULT, ADD, POW, COMPLEX}
-		types type;
-		float value;
-
-		modulate ( types type , float value) {
-			this.type = type;
-			this.value = value;
-			if (type == types.MULT){
-				this.mod = (Float in) -> {return in * value;};
-			}else if (type == types.ADD){
-				this.mod = (Float in) -> {return in + value;};
-			}else if (type == types.POW){
-				this.mod = (Float in) -> {return (float) Math.pow(in, value);};
-			}
-		}
-		modulate ( UnaryOperator<Float> lamb ) {
-			this.type = types.COMPLEX;
-			this.value = 0;
-			this.mod = lamb;
-		}
-
-		modulate () {
-			this.type = types.ADD;
-			this.value = 0;
-			this.mod = (Float in) -> {return in;};
-		}
-	}
-
 
 
 	/**
@@ -133,7 +67,7 @@ public class EarthBound {
 	 * @param text
 	 */
 	public static void print(String text) {
-		Boolean escaped = false;
+		boolean escaped = false;
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);
 

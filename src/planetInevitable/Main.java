@@ -3,8 +3,13 @@
  */
 package planetInevitable;
 
+import planetInevitable.game.Item;
+import planetInevitable.game.PSI;
+import planetInevitable.game.PartyMember;
 import planetInevitable.helpers.Stats;
-import planetInevitable.helpers.stat;
+import planetInevitable.enums.damageTypes;
+import planetInevitable.enums.stat;
+import planetInevitable.helpers.Modulate;
 
 import java.util.Objects;
 import java.util.Scanner;
@@ -20,16 +25,16 @@ public class Main {
 		bracelet.defaultStats();
 		bracelet.name = "Cool BRACELET";
 		bracelet.slot = PartyMember.equipmentSlot.NECK;
-		bracelet.damageResistances.put(EarthBound.damageTypes.BITE, new EarthBound.modulate(EarthBound.modulate.types.ADD, -5));
-		bracelet.statModulation.put(stat.IQ, new EarthBound.modulate(EarthBound.modulate.types.ADD, 99));
+		bracelet.damageResistances.put(damageTypes.BITE, new Modulate(Modulate.types.ADD, -5));
+		bracelet.statModulation.put(stat.IQ, new Modulate(Modulate.types.ADD, 99));
 		var braceletInstance = bracelet.instantiate();
 
         var gayclet = new Item.Equipment();
 		gayclet.defaultStats();
         gayclet.name = "Cool gayclet";
         gayclet.slot = PartyMember.equipmentSlot.NECK;
-        gayclet.damageResistances.put(EarthBound.damageTypes.BITE, new EarthBound.modulate(EarthBound.modulate.types.ADD, -5));
-		gayclet.statModulation.put(stat.SPEED, new EarthBound.modulate(EarthBound.modulate.types.ADD, 99));
+        gayclet.damageResistances.put(damageTypes.BITE, new Modulate(Modulate.types.ADD, -5));
+		gayclet.statModulation.put(stat.SPEED, new Modulate(Modulate.types.ADD, 99));
 
         var gaycletInstance = gayclet.instantiate();
 
@@ -37,14 +42,14 @@ public class Main {
 		swordOfQueens.defaultStats();
         swordOfQueens.name = "Sword of Queens";
         swordOfQueens.type = EarthBound.weaponType.SWORD;
-        swordOfQueens.damageType = EarthBound.damageTypes.METAL;
+        swordOfQueens.damageType = damageTypes.METAL;
         var soqInstance = swordOfQueens.instantiate();
 
         var boringSword = new Item.Weapon();
 		boringSword.defaultStats();
         boringSword.name = "Boring Sword";
         boringSword.type = EarthBound.weaponType.SWORD;
-        boringSword.damageType = EarthBound.damageTypes.METAL;
+        boringSword.damageType = damageTypes.METAL;
         var bsInstance = boringSword.instantiate();
 
 		Stats sophieStats = new Stats();
@@ -70,6 +75,8 @@ public class Main {
 		System.out.println(sophie.getEffectiveStats());
 		System.out.println(sophie.getEffectiveStats());
 		System.out.println(sophie.getEffectiveStats());
+
+
 
 
 		//Test replacing equipment

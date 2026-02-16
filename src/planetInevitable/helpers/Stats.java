@@ -1,6 +1,8 @@
 package planetInevitable.helpers;
 
-import planetInevitable.EarthBound;
+import planetInevitable.enums.afflictions;
+import planetInevitable.enums.damageTypes;
+import planetInevitable.enums.stat;
 
 import java.util.*;
 
@@ -18,10 +20,10 @@ public class Stats {
 		this.level = level;
 	}
 
-	public static float lvlXPCurve(Integer level) {
+	public float lvlXPCurve(Integer level) {
 		return (float) Math.pow(0.5 * level, 3.5);
 	}
-	public static int getLevelFromXP(Integer XP) {
+	public int getLevelFromXP(Integer XP) {
 		return (int) Math.pow(2 * XP, 1 / 3.5);
 	}
 
@@ -35,20 +37,20 @@ public class Stats {
 		this.value.put(stat, value);
 	}
 
-	public HashMap<EarthBound.damageTypes,Float> damageTypeMultiplier = new HashMap<>();
-	public HashMap<Affliction.afflictions,Float> afflictionResistances = new HashMap<>();
-	public HashMap<EarthBound.damageTypes,Float> damageTypeResistances = new HashMap<>();
+	public HashMap<damageTypes,Float> damageTypeMultiplier = new HashMap<>();
+	public HashMap<afflictions,Float> afflictionResistances = new HashMap<>();
+	public HashMap<damageTypes,Float> damageTypeResistances = new HashMap<>();
 
 	
 	public boolean verify() {
 		//Check if every damageTypeMultiplier has a value
-		for (EarthBound.damageTypes type : EarthBound.damageTypes.values()){
+		for (damageTypes type : damageTypes.values()){
 			if (!damageTypeMultiplier.containsKey(type)) {
 				return false;
 			}
 		}
 		//Check if every afflictionResistances has a value
-		for (Affliction.afflictions type : Affliction.afflictions.values()){
+		for (afflictions type : afflictions.values()){
 			if (!afflictionResistances.containsKey(type)) {
 				return false;
 			}
@@ -60,10 +62,10 @@ public class Stats {
 		for (stat stat : stat.values()){
 			set(stat, 25);
 		}
-		for (EarthBound.damageTypes type : EarthBound.damageTypes.values()){
+		for (damageTypes type : damageTypes.values()){
 			damageTypeResistances.putIfAbsent(type, 0.0f);
 		}
-		for (Affliction.afflictions type : Affliction.afflictions.values()){
+		for (afflictions type : afflictions.values()){
 			afflictionResistances.putIfAbsent(type, 0.0f);
 		}
 
