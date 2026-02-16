@@ -39,7 +39,8 @@ public class Stats {
 
 	public HashMap<damageTypes,Float> damageTypeMultiplier = new HashMap<>();
 	public HashMap<afflictions,Float> afflictionResistances = new HashMap<>();
-	public HashMap<damageTypes,Float> damageTypeResistances = new HashMap<>();
+	public HashMap<damageTypes,Float> damageTypeWeaknesses = new HashMap<>();
+	public HashMap<damageTypes,Float> damageTypeReduction = new HashMap<>();
 
 	
 	public boolean verify() {
@@ -63,7 +64,7 @@ public class Stats {
 			set(stat, 25);
 		}
 		for (damageTypes type : damageTypes.values()){
-			damageTypeResistances.putIfAbsent(type, 0.0f);
+			damageTypeWeaknesses.putIfAbsent(type, 1.0f);
 		}
 		for (afflictions type : afflictions.values()){
 			afflictionResistances.putIfAbsent(type, 0.0f);
@@ -73,6 +74,7 @@ public class Stats {
 
 	@Override
 	public String toString() {
-		return value.toString();
+
+		return value.toString() + "\n DTM:"+damageTypeMultiplier.toString()+ "\n AR:"+afflictionResistances.toString()+"\n DTW:" + damageTypeWeaknesses.toString()+ "\n DTR:"+damageTypeReduction.toString();
 	}
 }

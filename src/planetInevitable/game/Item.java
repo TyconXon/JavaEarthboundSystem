@@ -55,7 +55,7 @@ public class Item {
 
 		public void defaultStats(){
 			for (stat stat : stat.values()){
-				statModulation.putIfAbsent(stat, new Modulate(Modulate.types.ADD, 1));
+				statModulation.putIfAbsent(stat, new Modulate());
 			}
 			for (damageTypes dmgType : damageTypes.values()){
 				damageResistances.putIfAbsent(dmgType, new Modulate());
@@ -64,11 +64,16 @@ public class Item {
 				afflictionResistances.putIfAbsent(affType, new Modulate());
 			}
 		}
+		public void setDefense(int def){
+			statModulation.put(stat.DEFENSE, new Modulate(Modulate.types.ADD, def));
+		}
 	}
 	static public class Weapon extends Item {
 		public EarthBound.weaponType type;
 
 		public damageTypes damageType;
+		public float missChance;
+		public PrefixModifier prefix;
 		HashMap<stat, Modulate> statModulation = new HashMap<>();
 		HashMap<afflictions, Float> afflictionInflictionChances = new HashMap<>();
 		HashMap<Affliction.ailment, Modulate> ailmentModulations = new HashMap<>();
@@ -77,6 +82,10 @@ public class Item {
 			for (stat stat : stat.values()) {
 				statModulation.putIfAbsent(stat, new Modulate());
 			}
+		}
+
+		public void setDamage(int dmg){
+			statModulation.put(stat.OFFENSE, new Modulate(Modulate.types.ADD, dmg));
 		}
 	}
 

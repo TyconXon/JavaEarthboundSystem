@@ -3,6 +3,7 @@
  */
 package planetInevitable;
 
+import planetInevitable.game.Action;
 import planetInevitable.game.Item;
 import planetInevitable.game.PSI;
 import planetInevitable.game.PartyMember;
@@ -11,6 +12,7 @@ import planetInevitable.enums.damageTypes;
 import planetInevitable.enums.stat;
 import planetInevitable.helpers.Modulate;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -19,13 +21,15 @@ import java.util.Scanner;
  */
 public class Main {
 
+	static PartyMember sophie;
+
 	static void nothing(){
 
 		var bracelet = new Item.Equipment();
 		bracelet.defaultStats();
 		bracelet.name = "Cool BRACELET";
 		bracelet.slot = PartyMember.equipmentSlot.NECK;
-		bracelet.damageResistances.put(damageTypes.BITE, new Modulate(Modulate.types.ADD, -5));
+		bracelet.damageResistances.put(damageTypes.BITE, new Modulate(Modulate.types.ADD, (float) -0.5));
 		bracelet.statModulation.put(stat.IQ, new Modulate(Modulate.types.ADD, 99));
 		var braceletInstance = bracelet.instantiate();
 
@@ -33,7 +37,7 @@ public class Main {
 		gayclet.defaultStats();
         gayclet.name = "Cool gayclet";
         gayclet.slot = PartyMember.equipmentSlot.NECK;
-        gayclet.damageResistances.put(damageTypes.BITE, new Modulate(Modulate.types.ADD, -5));
+        gayclet.damageResistances.put(damageTypes.BITE, new Modulate(Modulate.types.ADD, (float) -0.1));
 		gayclet.statModulation.put(stat.SPEED, new Modulate(Modulate.types.ADD, 99));
 
         var gaycletInstance = gayclet.instantiate();
@@ -55,51 +59,68 @@ public class Main {
 		Stats sophieStats = new Stats();
 		sophieStats.defaultStats();
 		sophieStats.set(stat.MAX_CARRY, 25);
+		sophieStats.set(stat.DEFENSE, 1);
+		sophieStats.set(stat.OFFENSE, 1);
 
 
-		PSI[] sophieKnowledge = {};
+		HashSet<PSI> sophieKnowledge = new HashSet<>();
 
-		var sophie = new PartyMember("Sophie", sophieStats, sophieKnowledge);
+		sophie = new PartyMember("Sophie", sophieStats, sophieKnowledge);
         sophie.knownLocales.add(EarthBound.locale.GENERIC);
         sophie.validWeaponTypes.add(EarthBound.weaponType.SWORD);
+
 
 		System.out.println(sophie.getEffectiveStats());
 
 		//Test equipping
         sophie.equipItem(braceletInstance);
-		System.out.println(sophie.getEffectiveStats());
+		System.out.println(sophie.getEffectiveStats().damageTypeWeaknesses);
 
         sophie.equipItem(soqInstance);
-		System.out.println(sophie.getEffectiveStats());
-		System.out.println(sophie.getEffectiveStats());
-		System.out.println(sophie.getEffectiveStats());
-		System.out.println(sophie.getEffectiveStats());
-		System.out.println(sophie.getEffectiveStats());
-
-
-
-
 		//Test replacing equipment
 		sophie.equipItem(gaycletInstance);
+		System.out.println(sophie.getEffectiveStats());
+
 		sophie.equipItem(bsInstance);
 
 		//Test Reequipping
 		sophie.equipItem(gaycletInstance);
 		sophie.equipItem(bsInstance);
+
+
 	}
 
 	static void main(String[] args) {
 
 		nothing();
 
+		Action.Hit hurtself = new Action.Hit();
+		hurtself.targets.add(sophie);
+		hurtself.invoker = sophie;
+
 		var inputter = new Scanner(System.in);
-		while(true) {
+		do {
 			String input = inputter.nextLine();
-			if (Objects.equals(input, "")) {
+			switch(input) {
+				case "h":
+					hurtself.execute();
+					break;
+				case "i":
+					sophie.addExperience(25);
+					break;
+				case "d":
+					EarthBound.print(sophie.getEffectiveStats().toString());
+				default:
+					EarthBound.say(input);
+					break;
+			}
+
+			EarthBound.print(sophie.toString());
+			if(input.equals("x")) {
 				break;
 			}
-			EarthBound.say(input);
-		}
+
+		}while(true);
 
 		System.out.println("Terminated!");
 		inputter.close();

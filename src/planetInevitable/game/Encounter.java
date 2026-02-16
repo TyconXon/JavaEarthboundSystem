@@ -12,6 +12,7 @@ public class Encounter {
 	public swirl initiative;
 
 	private boolean partyTurn;
+	private Action[] queuedActions;
 
 	public enum swirl {
 		GREEN, GREY, RED

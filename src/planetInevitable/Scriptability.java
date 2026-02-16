@@ -3,9 +3,16 @@ package planetInevitable;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
+import org.luaj.vm2.lib.ThreeArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
 import org.luaj.vm2.lib.jse.*;
 import org.luaj.vm2.lib.jse.JsePlatform;
+import planetInevitable.game.PSI;
+import planetInevitable.game.PartyMember;
+import planetInevitable.helpers.Stats;
+import planetInevitable.*;
+
+import java.util.HashSet;
 
 public class Scriptability extends TwoArgFunction {
     public Scriptability() {}
@@ -36,4 +43,13 @@ public class Scriptability extends TwoArgFunction {
             return LuaValue.NIL;
         }
     }
+
+//    static class party_member extends TwoArgFunction {
+//        public LuaValue call(LuaValue x, LuaValue y) {
+//            Stats defaultStats = new Stats();
+//            defaultStats.defaultStats();
+//            return LuaValue.val new PartyMember(x.checkjstring(),defaultStats,new HashSet<PSI>());
+//        }
+//    }
+
 }

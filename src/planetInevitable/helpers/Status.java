@@ -1,8 +1,12 @@
 package planetInevitable.helpers;
 
+import planetInevitable.enums.afflictions;
+
+import java.util.HashSet;
+
 public class Status {
-	Integer health;
+	public Integer health;
 	Integer psiPoints;
-	Affliction[] afflictions;
+	public HashSet<afflictions> afflictions = new HashSet<>();
 	
 }

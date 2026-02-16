@@ -17,6 +17,8 @@ public class EarthBound {
 	}
 
 
+
+
 	/**
 	 * Print out the given text with the RPG format.
 	 * 
@@ -24,6 +26,7 @@ public class EarthBound {
 	 */
 	public static void say(String text) {
 		boolean escaped = false;
+		System.out.print("* ");
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);
 			int delay = default_delay;

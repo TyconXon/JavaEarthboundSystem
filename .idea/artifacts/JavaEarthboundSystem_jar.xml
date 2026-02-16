@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="JavaEarthboundSystem:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/JavaEarthboundSystem_jar</output-path>
+    <root id="archive" name="JavaEarthboundSystem.jar">
+      <element id="module-output" name="JavaEarthboundSystem" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/luaj-jme-3.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/gson-2.13.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/error_prone_annotations-2.38.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/luaj-jse-3.0.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
