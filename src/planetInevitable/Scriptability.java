@@ -13,6 +13,7 @@ import planetInevitable.helpers.Stats;
 import planetInevitable.*;
 
 import java.util.HashSet;
+import java.util.Scanner;
 
 public class Scriptability extends TwoArgFunction {
     public Scriptability() {}
@@ -24,18 +25,35 @@ public class Scriptability extends TwoArgFunction {
         Globals globals = JsePlatform.standardGlobals();
 
         // Use the convenience function on Globals to load a chunk.
-        LuaValue chunk = globals.loadfile(script);
+        // LuaValue chunk = globals.loadfile(script);
 
-        // Use any of the "call()" or "invoke()" functions directly on the chunk.
-        chunk.call( LuaValue.valueOf(script) );
+        var inputter = new Scanner(System.in);
+        do {
+            String input = inputter.nextLine();
+            if(input.equals("x")) {
+                break;
+            }
+
+            try {
+                // Use any of the "call()" or "invoke()" functions directly on the chunk.
+                globals.loadfile(script).call(LuaValue.valueOf(script));
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+
+        }while(true);
+
     }
 
     public LuaValue call(LuaValue modname, LuaValue env) {
         LuaValue library = tableOf();
         library.set("say", new say());
+        library.set("createCharacter", new createCharacter());
         env.set( "Scriptability", library );
         return library;
     }
+
+
 
     static class say extends OneArgFunction {
         public LuaValue call(LuaValue x) {
@@ -43,6 +61,16 @@ public class Scriptability extends TwoArgFunction {
             return LuaValue.NIL;
         }
     }
+
+    public class createCharacter extends OneArgFunction {
+        public LuaValue call(LuaValue x){
+            Stats defaultStats = new Stats();
+            defaultStats.defaultStats();
+            return LuaValue.userdataOf(new PartyMember(x.checkjstring(), defaultStats, new HashSet<PSI>() ));
+        }
+    }
+
+
 
 //    static class party_member extends TwoArgFunction {
 //        public LuaValue call(LuaValue x, LuaValue y) {

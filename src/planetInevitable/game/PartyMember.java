@@ -19,9 +19,9 @@ public class PartyMember {
     public HashSet<EarthBound.weaponType> validWeaponTypes = new HashSet<>();
     public int equippedWeaponID;
     public HashSet<EarthBound.locale> knownLocales = new HashSet<>();
-    String name; // Parameter
-    Stats stats; // Parameter
-    Status status;
+    public String name; // Parameter
+    public Stats stats; // Parameter
+    public Status status;
     ArrayList<Item.ItemInstance> inventory = new ArrayList<>();
     HashSet<PSI> knowledge; // Parameter
     HashMap<equipmentSlot, Item.Equipment.ItemInstance> equipment = new HashMap<>();
