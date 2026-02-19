@@ -48,6 +48,7 @@ public class Scriptability extends TwoArgFunction {
     public LuaValue call(LuaValue modname, LuaValue env) {
         LuaValue library = tableOf();
         library.set("say", new say());
+        library.set("getField", new getField());
         library.set("createCharacter", new createCharacter());
         env.set( "Scriptability", library );
         return library;
@@ -69,6 +70,17 @@ public class Scriptability extends TwoArgFunction {
             return LuaValue.userdataOf(new PartyMember(x.checkjstring(), defaultStats, new HashSet<PSI>() ));
         }
     }
+
+    public class getField extends TwoArgFunction  {
+        public LuaValue call(LuaValue character, LuaValue field) {
+	        try {
+		        return LuaValue.userdataOf( character.checkuserdata().getClass().getDeclaredField(field.checkjstring()).get(character.checkuserdata()));
+	        } catch (NoSuchFieldException | IllegalAccessException e) {
+		        throw new RuntimeException(e);
+	        }
+        }
+    }
+
 
 
 

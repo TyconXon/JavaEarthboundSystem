@@ -13,7 +13,10 @@ eb:print("\\bapple daaa")
 apple = Scriptability.createCharacter("Afton")
 print(apple)
 
-print(apple.stats)
+print(Scriptability.getField(apple, "name"))
+apStats = Scriptability.getField(apple, "stats")
+apStats.get("level")
+print(Scriptability.getField(apStats, "level"))
 
 --pm = luajava.bindClass( "planetInevitable.game.PartyMember" )
 

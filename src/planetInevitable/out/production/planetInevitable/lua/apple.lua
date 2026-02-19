@@ -7,18 +7,21 @@ Scriptability.say('apple \\rsauce')
 --frame:setVisible(true)
 
 eb = luajava.bindClass( "planetInevitable.EarthBound" )
---StatsClass = luajava.bindClass( "planetInevitable.helpers.Stats" )
---eb:print("\\bapple daaa")
+StatsClass = luajava.bindClass( "planetInevitable.helpers.Stats" )
+eb:print("\\bapple daaa")
 
---apple = Scriptability.createCharacter("Afton")
---print(apple)
+apple = Scriptability.createCharacter("Afton")
+print(apple)
 
---print(apple.)
+print(Scriptability.getField(apple, "name"))
+apStats = Scriptability.getField(apple, "stats")
+print(luajava)
+print(Scriptability.getField(apStats, "level"))
 
-pm = luajava.bindClass( "planetInevitable.game.PartyMember" )
+--pm = luajava.bindClass( "planetInevitable.game.PartyMember" )
 
-stats = luajava.bindClass( "planetInevitable.helpers.Stats" )
-istats = luajava.newInstance( "planetInevitable.helpers.Stats");
-istats:defaultStats();
+--stats = luajava.bindClass( "planetInevitable.helpers.Stats" )
+--istats = luajava.newInstance( "planetInevitable.helpers.Stats");
+--istats:defaultStats();
 
 --ipm = luajava.newInstance( "planetInevitable.game.PartyMember", "Texts", istats, );
